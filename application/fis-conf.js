@@ -1,28 +1,24 @@
-// fis3 release -d output
-// cd ./output
-// cat ./style.css #view result
-
-fis.match('*.css', {
-  useHash: true, //default is `true`
-  // compress css invoke fis-optimizer-clean-css
-  packTo: '/output/js/all.css', 
-
-  optimizer: fis.plugin('clean-css', {
-    // option of clean-css
-  })
-});
-// You need install it.
-// npm i fis-optimizer-html-minifier [-g]
-//
-fis.match('*pages/.html', {
-  //invoke fis-optimizer-html-minifier
-  optimizer: fis.plugin('html-minifier')
-});
-fis.match('static/*.js', {
-  useHash: true, // default is true
-  // 指定压缩插件 fis-optimizer-uglify-js
-   packTo: '/output/js/all.js', 
-  optimizer: fis.plugin('uglify-js', {
-    // option of uglify-js
-  })
+fis.config.set('project.include', ['pages/**', 'macros/**', 'static/**']);
+fis.config.set('project.exclude', ['pages/**.less', 'macros/**.less', 'static/**.less', 'static/**.png', 'static/**.jpg']);
+fis.config.set('modules.postpackager', 'simple');
+fis.config.set('pack', {
+    'pkg/libs.js': [
+        'static/js/libs/jquery.min.js',
+        'static/js/libs/bootstrap.min.js',
+        'static/js/libs/respond.min.js',
+        'static/js/init.js'
+    ],
+    'pkg/layout.js': [
+        'static/js/layout.js',
+        'static/output/macros.js'
+    ],
+    'pkg/libs.css': [
+        'static/css/libs/*.css'
+    ],
+    'pkg/layout.css': [
+        'static/css/bootstrap.theme.css',
+        'static/css/common.css',
+        'static/output/macros.css',
+        'static/css/layout.css'
+    ]
 });
