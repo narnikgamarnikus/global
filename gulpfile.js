@@ -70,6 +70,22 @@ gulp.task('global-css', function () {
         }))
         .pipe(gulp.dest(path.join(root, 'static/css')));
 });
+gulp.task('image', function () {
+  return gulp
+  .src(path.join(root, 'static/images/**/*'))
+  .pipe(image({
+      pngquant: true,
+      optipng: false,
+      zopflipng: true,
+      jpegRecompress: false,
+      jpegoptim: true,
+      mozjpeg: true,
+      gifsicle: true,
+      svgo: true,
+      concurrent: 10
+    }))
+    .pipe(gulp.dest('./output/static/images'));
+});
 
 
 
