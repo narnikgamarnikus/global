@@ -1,0 +1,17 @@
+.flash-message {
+  background-color: #3fa7cb;
+  border: 0;
+  color: #ffffff;
+  margin-bottom: 0;
+  position: fixed;
+  width: 100%;
+  top: 0;
+  left: 0;
+  z-index: 100000;
+  border-radius: 0;
+  text-align: center;
+  display: none;
+  padding: 0;
+  height: 50px;
+  line-height: 50px;
+}

@@ -63,6 +63,8 @@
     <script src="/static/js/jquery.ajaxchimp.js"></script>
     <script src="/static/js/jquery.app.js"></script>
     <script src="/static/js/switcher.js"></script>
+    <script src="/static/js/ajax-form.js"></script> 
+    <script src="/static/js/libs/raven.min.js"></script>
 
         <script type="text/javascript">
             /* ==============================================
@@ -92,6 +94,15 @@
 
 
 <body>
+
+{% if event_id %}
+<script>
+Raven.showReportDialog({
+    eventId: '{{ event_id }}',
+    dsn: '{{ public_dsn }}'
+});
+</script>
+{% endif %}
 
 {# Flash message #}
 {% with message = get_flashed_messages()[0] %}
