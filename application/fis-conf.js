@@ -22,10 +22,10 @@ fis.config.set('pack', {
         'static/css/layout.css'
     ],
     'pkg/styles.css': [
+        'static/css/pe-icon-7-stroke.css',
         'static/css/magnific-popup.css',
         'static/css/style.css',
-        'static/css/colors/default.css',
-        'static/css/pe-icon-7-stroke.css',
+        'static/css/colors/default.css'
     ],
     'pkg/others.js': [
         'static/js/libs/jquery.easing.1.3.min.js',
