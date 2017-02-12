@@ -15,4 +15,4 @@ class ProductionConfig(Config):
     SQLALCHEMY_DATABASE_URI = "postgresql://global@localhost/global"
 
     # Sentry
-    SENTRY_DSN = ''
+    SENTRY_DSN = 'https://ca1ac05e95e24998950500556f26f08a:644a790621d3435785eab71f33039983@sentry.io/138247'
