@@ -1,0 +1,79 @@
+<!-- Navbar -->
+        <div class="navbar navbar-custom sticky" role="navigation" id="sticky-nav">
+            <div class="container">
+
+                <!-- Navbar-header -->
+                <div class="navbar-header">
+
+                    <!-- Responsive menu button -->
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+
+                    <!-- LOGO -->
+                    <a class="navbar-brand logo" href="../index.html">
+                        Zodkoo
+                    </a>
+
+                </div>
+                <!-- end navbar-header -->
+
+                <!-- menu -->
+                <div class="navbar-collapse collapse" id="navbar-menu">
+
+                    <!-- Navbar left -->
+                    <ul class="nav navbar-nav nav-custom-left">
+                        <li class="active">
+                            <a href="index_3.html#home" class="nav-link">Home</a>
+                        </li>
+                        <li>
+                            <a href="index_3.html#features" class="nav-link">Features</a>
+                        </li>
+                        <li>
+                            <a href="index_3.html#pricing" class="nav-link">Plans</a>
+                        </li>
+                        <li>
+                            <a href="index_3.html#clients" class="nav-link">Clients</a>
+                        </li>
+                        <li class="dropdown">
+                            <a href="index_3.html#" data-toggle="dropdown">
+                                Pages
+                                <span class="caret"></span>
+                            </a>
+                            <ul class="dropdown-menu arrow">
+                                <li><a href="about-us.html">About Us</a></li>
+                                <li><a href="contact.html">Contact</a></li>
+                                <li><a href="faq.html">FAQ</a></li>
+                                <li><a href="jobs.html">Jobs</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+
+                    <!-- Navbar right -->
+                    <ul class="nav navbar-nav navbar-right">
+                    {% if g.user %}
+                        <li>
+                            <a href="#">{{ g.user.name }}</a>
+                        </li>
+                        <li>
+                            <a href="#" class="btn btn-white-fill navbar-btn">Выйти</a>
+                        </li>
+                    {% else %}
+                        <li>
+                            <a href="tel:{{ phone }}">{{ phone }}</a>
+                        </li>
+                        <li>
+                            <a href="#" class="btn btn-white-fill navbar-btn">Заказать звонок</a>
+                        </li>
+                    {% endif %}
+                    </ul>
+
+                </div>
+                <!--/Menu -->
+            </div>
+            <!-- end container -->
+        </div>
+        <!-- End navbar-custom -->

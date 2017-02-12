@@ -1,0 +1,129 @@
+<!doctype html>
+<html>
+<head>
+    <title>{% block page_title %}{% endblock %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="csrf-token" content="{{ csrf_token() }}"/>
+    {% block meta %}{% endblock %}
+    <link rel="Shortcut Icon" href="/static/image/favicon.png">
+    {# CSS libs #}
+    <link rel="stylesheet" href="/static/css/libs/bootstrap.min.css"/>
+    <link rel="stylesheet" href="/static/css/libs/font-awesome.min.css"/>
+    {# CSS layout #}
+    <link rel="stylesheet" href="/static/css/libs/bootstrap.theme.css"/>
+    <link rel="stylesheet" href="/static/css/common.css"/>
+    <link rel="stylesheet" href="/static/output/macros.css"/>
+    <link rel="stylesheet" href="/static/css/layout.css"/>
+    {# CSS page #}
+    {# CSS fonts #}
+    <link rel="stylesheet" href="static/css/pe-icon-7-stroke.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Pacifico"  type="text/css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:400,300,500,700" type="text/css">
+    <link rel="stylesheet" href="static/css/magnific-popup.css">
+    <link rel="stylesheet" href="static/css/style.css">
+    <link rel="stylesheet" href="static/css/colors/default.css" id="color-opt">
+    {% block page_css %}{% endblock %}
+    {# JS global vars #}
+    <script type="text/javascript">
+        var g = {
+            domain: "{{ config.SITE_DOMAIN }}",
+            csrfToken: "{{ csrf_token() }}",
+            rules: {{ rules|safe }},
+            method: "{{ request.method }}",
+            signin: {% if g.user %}true{% else %}false{% endif %},
+            userId: {% if g.user %}{{ g.user.id }}{% else %}false{% endif %}
+        };
+    </script>
+
+    <meta name="yandex-verification" content="086d5306efe34ab0" />
+    <!— Yandex.Metrika counter —> <script type="text/javascript"> (function (d, w, c) { (w[c] = w[c] || []).push(function() { try { w.yaCounter37578360 = new Ya.Metrika({ id:37578360, clickmap:true, trackLinks:true, accurateTrackBounce:true, webvisor:true, trackHash:true }); } catch(e) { } }); var n = d.getElementsByTagName("script")[0], s = d.createElement("script"), f = function () { n.parentNode.insertBefore(s, n); }; s.type = "text/javascript"; s.async = true; s.src = "https://mc.yandex.ru/metrika/watch.js"; if (w.opera == "[object Opera]") { d.addEventListener("DOMContentLoaded", f, false); } else { f(); } })(document, window, "yandex_metrika_callbacks"); </script> <noscript><div><img src="https://mc.yandex.ru/watch/37578360" style="position:absolute; left:-9999px;" alt="" /></div></noscript> <!— /Yandex.Metrika counter —>
+    <meta name="google-site-verification" content="LzjL2reBMlkFvshH5dlioChjyYZYUDczxJKZfU2OM3Y" />
+    {# JS libs #}
+    <!-- js placed at the end of the document so the pages load faster -->
+    <script src="static/js/libs/jquery-2.1.4.min.js"></script>
+    <script src="/static/js/libs/respond.min.js"></script>
+    <script src="/static/js/libs/bootstrap.min.js"></script>
+    <script src="/static/js/init.js"></script>
+
+        <!-- Jquery easing -->                                                      
+        <script type="text/javascript" src="static/js/libs/jquery.easing.1.3.min.js"></script>
+
+        <!--sticky header-->
+        <script type="text/javascript" src="static/js/jquery.sticky.js"></script>
+
+        <!--Magnific popup-->
+        <script type="text/javascript" src="static/js/libs/jquery.magnific-popup.min.js"></script>
+
+        <!-- mailchimp - ajax form -->
+        <script type="text/javascript" src="static/js/jquery.ajaxchimp.js"></script>
+
+        <!--common script for all pages-->
+        <script src="static/js/jquery.app.js"></script>
+
+        <!-- switcher -->
+        <script src="static/js/switcher.js"></script>
+
+        <script type="text/javascript">
+            /* ==============================================
+            Magnific Popup
+            =============================================== */
+            $(document).ready(function() {
+                $('.popup-video').magnificPopup({
+                  disableOn: 700,
+                  type: 'iframe',
+                  mainClass: 'mfp-fade',
+                  removalDelay: 160,
+                  preloader: false,
+
+                  fixedContentPos: false
+                });
+            });
+        </script>
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 tooltipss and media queries -->
+        <!--[if lt IE 9]>
+          <script src="js/html5shiv.js"></script>
+          <script src="js/respond.min.js"></script>
+        <![endif]-->
+</head>
+
+
+
+
+<body>
+
+{# Flash message #}
+{% with message = get_flashed_messages()[0] %}
+    {% if message %}
+        <div class="alert alert-info flash-message">{{ message }}</div>
+    {% endif %}
+{% endwith %}
+
+{% include 'site/includes/nav/nav-style.html' %}
+
+{# Please DO NOT change the id below #}
+<div id="main">
+    {% block page_content %}{% endblock %}
+</div>
+
+{% include 'site/includes/footer/footer-style.html' %}
+
+<!-- Back to top -->    
+<a href="index_3.html#" class="back-to-top" id="back-to-top"> <i class="pe-7s-angle-up"> </i> </a>
+
+{# JS layout #}
+<script src="/static/js/layout.js"></script>
+
+{# JS macros #}
+<script src="/static/output/macros.js"></script>
+
+{# JS page #}
+{% block page_js %}{% endblock %}
+
+
+
+</body>
+</html>
