@@ -19,6 +19,9 @@ fis.config.set('pack', {
         'static/css/bootstrap.theme.css',
         'static/css/common.css',
         'static/output/macros.css',
-        'static/css/layout.css'
+        'static/css/layout.css',
+        '/static/css/magnific-popup.css',
+        '/static/css/style.css',
+        '/static/css/colors/default.css'
     ]
 });
