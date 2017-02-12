@@ -1,5 +1,5 @@
 fis.config.set('project.include', ['pages/**', 'macros/**', 'static/**']);
-fis.config.set('project.exclude', ['pages/**.less', 'macros/**.less', 'static/**.less']);
+fis.config.set('project.exclude', ['pages/**.less', 'macros/**.less', 'static/**.less', 'static/**/*.png', 'static/**/*.jpg', 'static/**/*.jpeg', 'static/**/*.ico']);
 fis.config.set('modules.postpackager', 'simple');
 fis.config.set('pack', {
     'pkg/libs.js': [

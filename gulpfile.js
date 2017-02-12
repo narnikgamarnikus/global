@@ -8,6 +8,9 @@ var plumber = require('gulp-plumber');
 var header = require('gulp-header');
 var footer = require('gulp-footer');
 var rename = require("gulp-rename");
+var image = require("gulp-image");
+var changed = require('gulp-changed');
+
 
 var root = './application';
 
@@ -60,7 +63,43 @@ gulp.task('global-css', function () {
         .pipe(gulp.dest(path.join(root, 'static/css')));
 });
 
-gulp.task('build', ['macros-css', 'macros-js', 'pages-css', 'global-css']);
+gulp.task('image', function () {
+    return gulp
+    .src(path.join(root, 'static/image/**/*'))
+    .pipe(changed(path.join(root, 'static/image/**/*')))
+    .pipe(image({
+          pngquant: true,
+          optipng: false,
+          zopflipng: true,
+          jpegRecompress: false,
+          jpegoptim: true,
+          mozjpeg: true,
+          gifsicle: true,
+          svgo: true,
+          concurrent: 10
+    }))
+    .pipe(gulp.dest('./output/static/image'));
+});
+
+gulp.task('img', function () {
+    return gulp
+    .src(path.join(root, 'static/images/**/*'))
+    .pipe(changed(path.join(root, 'static/images/**/*')))
+    .pipe(image({
+          pngquant: true,
+          optipng: false,
+          zopflipng: true,
+          jpegRecompress: false,
+          jpegoptim: true,
+          mozjpeg: true,
+          gifsicle: true,
+          svgo: true,
+          concurrent: 10
+    }))
+    .pipe(gulp.dest('./output/static/images'));
+});
+
+gulp.task('build', ['image', 'img', 'macros-css', 'macros-js', 'pages-css', 'global-css']);
 
 gulp.task('watch', ['build'], function () {
     watch(path.join(root, 'macros/**/_*.js'), batch(function (events, done) {
