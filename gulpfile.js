@@ -79,21 +79,21 @@ gulp.task('global-css', function () {
 });
 
 gulp.task('image', function () {
-  return gulp
-  .src(path.join(root, 'static/images/**/*'))
-  .pipe(changed('./output/static/images', {hasChanged: changed.compareSha1Digest}))
-  .pipe(image({
-      pngquant: true,
-      optipng: false,
-      zopflipng: true,
-      jpegRecompress: false,
-      jpegoptim: true,
-      mozjpeg: true,
-      gifsicle: true,
-      svgo: true,
-      concurrent: 10
+    return gulp
+    .src(path.join(root, 'static/images/**/*'))
+    .pipe(changed('./output/static/images', {hasChanged: changed.compareSha1Digest}))
+    .pipe(image({
+        pngquant: true,
+        optipng: false,
+        zopflipng: true,
+        jpegRecompress: false,
+        jpegoptim: true,
+        mozjpeg: true,
+        gifsicle: true,
+        svgo: true,
+        concurrent: 10
     }))
-    .pipe(gulp.dest('./output/static/images'));
+  .pipe(gulp.dest('./output/static/images'));
 });
 
 
