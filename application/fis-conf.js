@@ -22,8 +22,6 @@ fis.config.set('pack', {
         'static/css/layout.css'
     ],
     'pkg/style.css': [
-        'static/css/magnific-popup.css',
-        'static/css/style.css',
-        'static/css/colors/default.css'
+        'static/css/style.css'
         ]
 });
