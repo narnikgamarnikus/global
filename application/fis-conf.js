@@ -1,6 +1,6 @@
 fis.config.set('project.include', ['pages/**', 'macros/**', 'static/**']);
 fis.config.set('project.exclude', ['pages/**.less', 'macros/**.less', 'static/**.less', 'static/**.png', 'static/**.jpg']);
-fis.config.set('modules.postpackager', 'simple');
+fis.config.set('settings.postpackager.simple.autoCombine', true);
 fis.config.set('pack', {
     'pkg/libs.js': [
         'static/js/libs/jquery.min.js',
