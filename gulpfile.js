@@ -25,6 +25,14 @@ gulp.task('macros-css', function () {
         .pipe(gulp.dest(path.join(root, 'static/output/')));
 });
 
+gulp.task('styles-css', function () {
+    return gulp
+        .src(path.join(root, 'static/css/_*.css'))
+        .pipe(plumber())
+        .pipe(concat('macros.css'))
+        .pipe(gulp.dest(path.join(root, 'static/output/')));
+});
+
 gulp.task('macros-js', function () {
     return gulp
         .src(path.join(root, 'macros/**/_*.js'))
