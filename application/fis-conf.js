@@ -20,5 +20,10 @@ fis.config.set('pack', {
         'static/css/common.css',
         'static/output/macros.css',
         'static/css/layout.css'
+        'static/css/style.css'
+        'static/css/magnific-popup.css'
+        'static/css/pe-icon-7-stroke.css'
+        'static/css/colors/default.css'
+
     ]
 });
