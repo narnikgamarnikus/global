@@ -10,7 +10,14 @@ var footer = require('gulp-footer');
 var rename = require("gulp-rename");
 var image = require("gulp-image");
 var changed = require('gulp-changed');
-
+var fontgen = require('gulp-fontgen');
+ 
+gulp.task('fontgen', function() {
+  return gulp
+  .src(path.join(root, './static/fonts/*.{ttf,otf}'))
+  .pipe(fontgen())
+  .pipe(gulp.dest('output/static/fonts/'));
+});
 
 var root = './application';
 
@@ -39,8 +46,8 @@ gulp.task('macros-js', function () {
         .pipe(plumber())
         .pipe(header('(function () {'))
         .pipe(footer('})();'))
-        .pipe(concat('macros.js'))
-        .pipe(gulp.dest(path.join(root, 'static/output/')));
+        .pipe(concat('macros.js')
+)        .pipe(gulp.dest(path.join(root, 'static/output/')));
 });
 
 gulp.task('pages-css', function () {
