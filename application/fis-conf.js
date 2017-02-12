@@ -24,7 +24,7 @@ fis.config.set('pack', {
     'pkg/style.css': [
         'static/css/magnific-popup.css',
         'static/css/style.css',
-        'static/css/colors/default.css',
+        'static/css/colors/default.css'
     ],
     'pkg/style.js': [
         'static/js/libs/jquery.easing.1.3.min.js',
