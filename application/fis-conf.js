@@ -34,9 +34,8 @@ fis.config.set('pack', {
         'static/js/jquery.ajaxchimp.js',
         'static/js/jquery.app.js',
         'static/js/switcher.js',
-        'static/js/ajax-form.js',
-        'static/js/libs/raven.min.js'
-    ]
+        'static/js/ajax-form.js'
+        ]
 });
 
 
