@@ -81,6 +81,7 @@ gulp.task('global-css', function () {
 gulp.task('image', function () {
   return gulp
   .src(path.join(root, 'static/images/**/*'))
+  .pipe(changed('./output/static/images', {hasChanged: changed.compareSha1Digest}))
   .pipe(image({
       pngquant: true,
       optipng: false,
