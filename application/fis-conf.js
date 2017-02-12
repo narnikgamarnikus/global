@@ -20,18 +20,5 @@ fis.config.set('pack', {
         'static/css/common.css',
         'static/output/macros.css',
         'static/css/layout.css'
-    ],
-    'pkg/styles.css': [
-        'static/css/magnific-popup.css',
-        'static/css/style.css',
-        'static/css/colors/default.css'
-    ],
-    'pkg/styles.js': [
-        'static/js/libs/jquery.easing.1.3.min.js',
-        'static/js/jquery.sticky.js',
-        'static/js/libs/jquery.magnific-popup.min.js',
-        'static/js/jquery.ajaxchimp.js',
-        'static/js/jquery.app.js',
-        'static/js/switcher.js'
     ]
 });
