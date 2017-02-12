@@ -12,9 +12,9 @@ fis.config.set('pack', {
         'static/js/layout.js',
         'static/output/macros.js',
         'static/js/libs/jquery.easing.1.3.min.js',
-        'static/js/jquery.sticky.js'
-        'static/js/libs/jquery.magnific-popup.min.js'
-        'static/js/jquery.ajaxchimp.js'
+        'static/js/jquery.sticky.js',
+        'static/js/libs/jquery.magnific-popup.min.js',
+        'static/js/jquery.ajaxchimp.js',
         'static/js/jquery.app.js',
         'static/js/switcher.js'
     ],
