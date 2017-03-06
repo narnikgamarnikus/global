@@ -40,7 +40,7 @@ profile_handlings = db.Table('profile_handlings',
 )
 
 class Profile(Base):
-    user = db.Column(db.Integer, db.ForeignKey("user.id"), unique=True)
+    user = db.Column(db.Integer, db.ForeignKey('user.id'), unique=True)
     avatar = db.Column(db.Integer, db.ForeignKey('image.id'))
     city = db.Column(db.Integer, db.ForeignKey('city.id'))
     images = db.relationship('Image', secondary=profile_images,
@@ -59,8 +59,8 @@ class Profile(Base):
         backref=db.backref('propertys_users'))
     domains = db.relationship('Domain', secondary=profile_domains,
         backref=db.backref('users_users'))
-    organisations = db.relationship('Organisation', backref="users_organisations")
-    activities = db.relationship('Activity', backref="users_activities")
+    organisations = db.relationship('Organisation', backref='users_organisations')
+    activities = db.relationship('Activity', backref='users_activities')
     is_master = db.Column(db.Boolean())
 
     def __repr__(self):

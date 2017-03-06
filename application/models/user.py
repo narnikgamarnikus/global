@@ -33,7 +33,7 @@ class User(Base, UserMixin):
         backref=db.backref('users'))
     active = db.Column(db.Boolean())
     profile = relationship('Profile', 
-        backref="profile_user", 
+        backref='profile_user', 
         uselist=False)
     confirmed_at = db.Column(db.DateTime())
     last_login_at = db.Column(db.DateTime())
@@ -46,7 +46,7 @@ class User(Base, UserMixin):
 
     @staticmethod
     def create_profile(self):
-        """Create profile by current user"""
+        '''Create profile by current user'''
         if not Profile.query.filter(Profile.user == self.id).first():
             Profile.create(user = self.id)
         return self.profile
@@ -54,9 +54,9 @@ class User(Base, UserMixin):
 
     @staticmethod
     def get_unread_notifs(self, reverse=False):
-        """Get unread notifications with titles, humanized receiving time
+        '''Get unread notifications with titles, humanized receiving time
         and Mark-as-read links.
-        """
+        '''
         notifs = []
         unread_notifs = Notification.query.filter_by(created_by=self.id, has_read=False)
         for notif in unread_notifs:
@@ -73,13 +73,13 @@ class User(Base, UserMixin):
 
     @staticmethod
     def create_notification(self, action, title, message):
-        """
+        '''
         Create a User Notification
         :param user: User object to send the notification to
         :param action: Action being performed
         :param title: The message title
         :param message: Message
-        """
+        '''
         saved = Notification.create(created_by=self.id,
                                     has_read=False,
                                     action=action,
@@ -92,9 +92,9 @@ class User(Base, UserMixin):
 
     @staticmethod
     def push_user_notification(self):
-        """
+        '''
         Push user notification to user socket connection.
-        """
+        '''
         user_room = 'user_{}'.format(self.id)
         emit('notification',
              {'meta': 'New notifications',

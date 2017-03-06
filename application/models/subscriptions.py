@@ -12,7 +12,7 @@ class TodoItems(db.Model):
     title = db.Column(db.String(128))
 
     def __repr__(self):
-        return r'<TodoItems "%s" at %s>' % (self.title, self.timestamp)
+        return r'<TodoItems '%s' at %s>' % (self.title, self.timestamp)
 '''
 
 class Subscriptions(db.Model):

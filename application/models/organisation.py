@@ -17,7 +17,7 @@ class Organisation(Base):
     country = db.Column(db.Integer, db.ForeignKey('country.id'), nullable=False) 
     type = db.Column(db.Integer, db.ForeignKey('type.id'), nullable=False) 
     created_by = db.Column(db.Integer, db.ForeignKey('profile.id'), nullable=False) 
-    contacts = db.relationship('Contact', backref="Организации")
+    contacts = db.relationship('Contact', backref='Организации')
     activities = db.relationship('Activity', backref='Виды деятельности')
 
     '''
