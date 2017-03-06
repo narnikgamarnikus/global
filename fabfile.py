@@ -8,9 +8,9 @@ host_string = config.HOST_STRING
 
 def deploy():
     env.host_string = config.HOST_STRING
-    run('sudo chmod 777 -R /var/www/tetrafoil')
-    print('!!! chmod in /var/www/tetrafoil changet to 777 !!!')
-    with cd('/var/www/tetrafoil'):
+    run('sudo chmod 777 -R /var/www/global')
+    print('!!! chmod in /var/www/global changet to 777 !!!')
+    with cd('/var/www/global'):
         with shell_env(MODE='PRODUCTION'):
             #run('git reset --hard HEAD')
             #run('git pull')
@@ -27,7 +27,7 @@ def deploy():
 
 def create_db_prod():
 	env.host_string = config.HOST_STRING
-	with cd('/var/www/tetrafoil'):
+	with cd('/var/www/global'):
 		with shell_env(MODE='PRODUCTION'):
 			with prefix('source venv/bin/activate'):
 				run('python manage.py db init')
