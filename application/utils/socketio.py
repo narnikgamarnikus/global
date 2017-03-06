@@ -7,7 +7,7 @@ from ..utils.redis import redis_store
 from flask_socketio import SocketIO, Namespace, emit, join_room, leave_room, \
 close_room, rooms, disconnect, send
 from geolite2 import geolite2
-import pgpubsub
+#import pgpubsub
 
 reader = geolite2.reader()
 socketio = SocketIO()
