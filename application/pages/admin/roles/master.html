@@ -1,0 +1,6 @@
+{% extends admin_base_template %}
+{% import 'admin/widgets/revenue.html' as revenue with context -%}
+
+{% block body %}
+{{ revenue.revenue() }}
+{% endblock %}

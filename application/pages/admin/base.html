@@ -1,0 +1,181 @@
+{% import 'admin/layout.html' as layout with context -%}
+{% import 'admin/static.html' as admin_static with context %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{% block title %}{% if admin_view.category %}{{ admin_view.category }} - {% endif %}{{ admin_view.name }} - {{ admin_view.admin.name }}{% endblock %}</title>
+
+    {% block head_meta %}
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="csrf-token" content="{{ csrf_token() }}"/>
+    <meta name="yandex-verification" content="086d5306efe34ab0" />
+    <meta name="google-site-verification" content="LzjL2reBMlkFvshH5dlioChjyYZYUDczxJKZfU2OM3Y" />
+
+
+    {% endblock %}
+    {% block head_css %}
+
+    <link rel="shortcut icon" href="static/images/favicon_1.ico">
+    {# CSS libs #}
+
+    {# CSS layout #}
+    <link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ url_for('static', filename='css/core.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ url_for('static', filename='css/components.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ url_for('static', filename='css/icons.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ url_for('static', filename='css/pages.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ url_for('static', filename='css/responsive.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ url_for('static', filename='plugins/morris/morris.css')}}" rel="stylesheet" type="text/css" />
+    <link href="{{ url_for('static', filename='plugins/bootstrap-sweetalert/sweet-alert.css')}}" rel="stylesheet" type="text/css" />
+    {% block table_css %}
+    {% endblock %}
+    {% endblock %}
+
+    {# JS global vars #}
+    <script type="text/javascript">
+        var g = {
+            domain: "{{ config.SITE_DOMAIN }}",
+            csrfToken: "{{ csrf_token() }}",
+            rules: {{ rules|safe }},
+            method: "{{ request.method }}",
+            signin: {% if g.user %}true{% else %}false{% endif %},
+            userId: {% if g.user %}{{ g.user.id }}{% else %}false{% endif %}
+        };
+    </script>
+
+    <!— Yandex.Metrika counter —> <script type="text/javascript"> (function (d, w, c) { (w[c] = w[c] || []).push(function() { try { w.yaCounter37578360 = new Ya.Metrika({ id:37578360, clickmap:true, trackLinks:true, accurateTrackBounce:true, webvisor:true, trackHash:true }); } catch(e) { } }); var n = d.getElementsByTagName("script")[0], s = d.createElement("script"), f = function () { n.parentNode.insertBefore(s, n); }; s.type = "text/javascript"; s.async = true; s.src = "https://mc.yandex.ru/metrika/watch.js"; if (w.opera == "[object Opera]") { d.addEventListener("DOMContentLoaded", f, false); } else { f(); } })(document, window, "yandex_metrika_callbacks"); </script> <noscript><div><img src="https://mc.yandex.ru/watch/37578360" style="position:absolute; left:-9999px;" alt="" /></div></noscript> <!— /Yandex.Metrika counter —>
+    <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-91819614-1', 'auto');
+    ga('send', 'pageview');
+
+    </script>
+
+
+    {# JS libs #}
+    <!-- js placed at the end of the document so the pages load faster -->
+    <!--script src="/static/js/libs/jquery.min.js"></script>
+    <script src="/static/js/libs/bootstrap.min.js"></script-->
+
+
+        <script>
+            var resizefunc = [];
+        </script>
+{% block head %}
+{% endblock %}
+{% block head_tail %}
+{% endblock %}
+</head>
+<body class="fixed-left">
+{% block page_body %}
+
+<div id="wrapper">
+
+{% block main_menu %}
+<!-- ========== Left Sidebar Start ========== -->
+    <div class="left side-menu">
+        <div class="sidebar-inner slimscrollleft">
+            <!--- Divider -->
+                <div id="sidebar-menu">
+                    <ul>
+                        <li class="text-muted menu-title">Navigation</li>
+                        {{ layout.menu() }}
+                    </ul>
+                <div class="clearfix"></div>
+                </div>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+<!-- Left Sidebar End --> 
+{% endblock %}
+
+{% block menu_links %}
+{% include 'admin/includes/nav/top-bar.html' %}
+{% endblock %}
+
+{% block messages %}
+{{ layout.messages() }}
+{% endblock %}
+
+      {# store the jinja2 context for form_rules rendering logic #}
+      {% set render_ctx = h.resolve_ctx() %}
+            
+<div class="content-page">
+<!-- Start content -->
+<div class="content">
+<div class="container">
+
+{% block body %}{% endblock %}
+
+</div>
+</div>
+</div>
+
+{% include 'admin/includes/nav/right-sidebar.html' %}
+
+{% if event_id %}
+<script>
+Raven.showReportDialog({
+    eventId: '{{ event_id }}',
+    dsn: '{{ public_dsn }}'
+});
+</script>
+
+{% endif %}
+
+
+</div>
+    {% endblock %}
+
+    {% block tail_js %}
+            <!-- jQuery  -->
+<script src="{{ url_for('static', filename='js/libs/respond.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/modernizr.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/libs/jquery.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/libs/bootstrap.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/detect.js') }}"></script>
+<script src="{{ url_for('static', filename='js/fastclick.js') }}"></script>
+<script src="{{ url_for('static', filename='js/jquery.slimscroll.js') }}"></script>
+<script src="{{ url_for('static', filename='js/jquery.blockUI.js') }}"></script>
+<script src="{{ url_for('static', filename='js/waves.js') }}"></script>
+<script src="{{ url_for('static', filename='js/wow.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/jquery.nicescroll.js') }}"></script>
+<script src="{{ url_for('static', filename='js/jquery.scrollTo.min.js') }}"></script>
+<script src="{{ url_for('static', filename='plugins/moment/moment.js') }}"></script>
+<script src="{{ url_for('static', filename='plugins/morris/morris.min.js') }}"></script>
+<script src="{{ url_for('static', filename='plugins/raphael/raphael-min.js') }}"></script>
+
+<script src="{{ url_for('static', filename='plugins/bootstrap-sweetalert/sweet-alert.min.js') }}"></script>
+<script src="{{ url_for('static', filename='pages/jquery.todo.js') }}"></script>
+<script src="{{ url_for('static', filename='pages/jquery.chat.js') }}"></script>
+<script src="{{ url_for('static', filename='plugins/peity/jquery.peity.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/jquery.core.js') }}"></script>
+<script src="{{ url_for('static', filename='js/jquery.app.js') }}"></script>
+<script src="{{ url_for('static', filename='pages/jquery.dashboard_2.js') }}"></script>
+<!-- HTML5 shim and Respond.js IE8 support of HTML5 tooltipss and media queries -->
+<!--[if lt IE 9]>
+<script src="{{ url_for('static', filename='js/html5shiv.js') }}"></script>
+<script src="{{ url_for('static', filename='js/respond.min.js') }}"></script>
+<![endif]-->
+
+    <script src="{{ admin_static.url(filename='vendor/moment.min.js', v='2.9.0') }}" type="text/javascript"></script>
+    <script src="{{ admin_static.url(filename='vendor/select2/select2.min.js', v='3.5.2') }}" type="text/javascript"></script>
+    {% endblock %}
+
+    {% block tail %}
+    {% endblock %}
+
+
+
+
+
+
+</body>
+</html>

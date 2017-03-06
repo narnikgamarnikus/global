@@ -1,5 +1,5 @@
 # coding: utf-8
-from datetime import datetime
+#from datetime import datetime
 from .base import *
 
 
@@ -10,7 +10,8 @@ class Notification(Base):
 	action = db.Column(db.String(50))
 	title = db.Column(db.String(50))
 	message = db.Column(db.String(50))
-	received_at = datetime.now()
+	received_at = db.Column(db.DateTime, default=db.func.current_timestamp())
+
 
 
 	def __repr__(self):

@@ -6,6 +6,9 @@
 {% block page_css %}
     <link rel="stylesheet" href="/pages/site/index/index.css"/>{% endblock %}
 {% block page_content %}
+<h1>{{url}}</h1>
 {% include 'site/sections/home.html' %}
+{% include 'site/sections/clients.html' %}
+{% include 'site/sections/features.html' %}
 
 {% endblock %}

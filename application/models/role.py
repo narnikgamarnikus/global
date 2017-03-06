@@ -8,3 +8,6 @@ class Role(Base, RoleMixin):
 	
 	name = db.Column(db.String(50), unique=True)
 	description = db.Column(db.String(255))
+
+	def __repr__(self):
+		return '%s' % self.name

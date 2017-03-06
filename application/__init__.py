@@ -17,6 +17,7 @@ from werkzeug.contrib.fixers import ProxyFix
 from six import iteritems
 from .utils.account import get_current_user
 from config import load_config
+import json
 
 # convert python's encoding to utf8
 try:
@@ -74,9 +75,19 @@ def create_app():
     # Register components
     register_db(app)
     register_routes(app)
+    register_admin(app)
+    register_security(app)
+    register_babel(app)
     register_jinja(app)
     register_error_handle(app)
     register_hooks(app)
+    register_socketio(app)
+    register_redis(app)
+    register_context_processor(app)
+    register_before_first_request(app)
+
+
+
 
     return app
 
@@ -146,6 +157,42 @@ def register_routes(app):
         if bp and isinstance(bp, Blueprint):
             app.register_blueprint(bp)
 
+def register_babel(app):
+    """Register babel."""
+    from .utils.babel import babel
+
+    babel.init_app(app)
+
+def register_babel(app):
+    """Register api."""
+    from .utils.api import api
+
+    api.init_app(app)
+
+def register_security(app):
+    """Register Flask-security."""
+    from .utils.security import security, user_datastore
+    
+    security.init_app(app, user_datastore)
+
+def register_socketio(app):
+    """Register socketio."""
+    from .utils.socketio import socketio
+
+    socketio.init_app(app)
+
+
+def register_admin(app):
+    """Register Flask-admin."""
+    from .utils.admin import admin
+
+    admin.init_app(app)
+
+def register_redis(app):
+    """Register redis."""
+    from .utils.redis import redis_store
+
+    redis_store.init_app(app)
 
 def register_error_handle(app):
     """Register HTTP error pages."""
@@ -178,6 +225,86 @@ def register_hooks(app):
             delta = time.time() - g._before_request_time
             response.headers['X-Render-Time'] = delta * 1000
         return response
+
+
+def register_context_processor(app):
+    @app.context_processor
+    def utility_processor():
+        def get_record_ids(data, get_pk_value):
+            if not data is None:
+                if len(data) > 0:
+                    table_name = str(data[0].__table__)
+                    record_ids = [get_pk_value(m) for m in data]
+                    record_ids = json.dumps({table_name: record_ids})
+                    return record_ids
+        return dict(get_record_ids=get_record_ids)
+
+
+def register_before_first_request(app):
+    """Register before_first_request"""
+    from .utils.eventlet import eventlet
+    from .utils.redis import redis_store
+    from .utils.socketio import socketio
+    from pickle import loads
+    from .models._base import db
+    from .models.subscriptions import Subscriptions
+
+    def process_message(data):
+
+        if not data['data'] == 1:
+            data = loads(data['data'])
+            message = json.dumps(repr(data['row']))
+            print(data['type'])
+            if data['type'] == 'INSERT':
+                print('data row its : ' + str(data['row']))
+                socketio.emit('insert', message, namespace='/')
+            elif data['type'] == 'UPDATE':
+                print('UPDATE')
+                socket_io_clients = (
+                    db.session.query(Subscriptions.socket_io_id)
+                        .filter(Subscriptions.record_id == data['data'])
+                        .filter(Subscriptions.table_name == str(data['model']).lower())
+                        .group_by(Subscriptions.socket_io_id)
+                        .all()
+                )
+                for client, in socket_io_clients:
+                    socketio.emit('update',
+                                   message,
+                                   namespace='/',
+                                   room=client)
+            elif data['type'] == 'DELETE':
+                print('data was deleted')
+                socketio.emit('delete', message, namespace='/')
+        
+    '''
+    def redisMsgReader():
+        print ('Starting redisMsgReader subscriber')
+        pubsub = redis_store.pubsub()
+        pubsub.subscribe('msg')
+        for msg in pubsub.listen():
+            #print ('>>>>>', msg)
+            print('Redis says : ' + str(msg['data']))
+    '''
+    def redisRealtimeReader():
+        print ('Starting redisRealtimeReader subscriber')
+        pubsub = redis_store.pubsub()
+        pubsub.subscribe('realtime')
+        for realtime in pubsub.listen():
+            print('Realtime Redis says : ' + str(realtime))
+            if realtime is None:
+                pass
+            else:
+                with app.app_context():
+                    process_message(realtime)
+
+    def setupRedis():
+        print('setupRedis')
+        pool = eventlet.GreenPool()
+        #pool.spawn(redisMsgReader)
+        pool.spawn(redisRealtimeReader)
+
+
+    app.before_first_request(setupRedis)
 
 
 def _get_template_name(template_reference):

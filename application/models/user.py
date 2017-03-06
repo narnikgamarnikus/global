@@ -9,34 +9,49 @@ from flask import g, url_for
 from .notification import Notification
 import humanize
 from flask_security import UserMixin
+from .profile import Profile
+from .handling import Handling
+
 
 
 roles_users = db.Table('roles_users',
-        db.Column('user_id', db.Integer(), db.ForeignKey('user.id')),
-        db.Column('role_id', db.Integer(), db.ForeignKey('role.id')))
+    db.Column('user_id', db.Integer(), db.ForeignKey('user.id')),
+    db.Column('role_id', db.Integer(), db.ForeignKey('role.id'))
+    )
 
 
 class User(Base, UserMixin):
+
     
     first_name = db.Column(db.String(255))
     last_name = db.Column(db.String(255))
+    full_name = db.Column(db.String(255))
     email = db.Column(db.String(255), unique=True)
     password = db.Column(db.String(255))
-    avatar = db.Column(db.String(200), default='default.png')
-    roles = db.relationship('Role', secondary=roles_users,
-                            backref=db.backref('users', lazy='dynamic'))
+    roles = db.relationship('Role', 
+        secondary=roles_users,
+        backref=db.backref('users'))
     active = db.Column(db.Boolean())
+    profile = relationship('Profile', 
+        backref="profile_user", 
+        uselist=False)
     confirmed_at = db.Column(db.DateTime())
     last_login_at = db.Column(db.DateTime())
     current_login_at = db.Column(db.DateTime())
     last_login_ip = db.Column(db.String(55))
     current_login_ip = db.Column(db.String(55))
     login_count = db.Column(db.Integer())
-    #organisations = db.relationship('Organisation', backref="users_organisations")
-    #projects = db.relationship('Project', backref="users_projects")
-    #contacts = db.relationship('Contact', backref="users_contacts")
-    #activities = db.relationship('Activity', backref="users_activities")
-    
+    created_by = db.Column(db.Integer, db.ForeignKey('user.id'))
+
+
+    @staticmethod
+    def create_profile(self):
+        """Create profile by current user"""
+        if not Profile.query.filter(Profile.user == self.id).first():
+            Profile.create(user = self.id)
+        return self.profile
+
+
     @staticmethod
     def get_unread_notifs(self, reverse=False):
         """Get unread notifications with titles, humanized receiving time
@@ -97,9 +112,10 @@ class User(Base, UserMixin):
     
     def check_password(self, password):
         return check_password_hash(self.password, password)
-    '''
+    
 
 
 
     def __repr__(self):
-        return '%s' % self.email
+        return '%s' % self.id
+    '''

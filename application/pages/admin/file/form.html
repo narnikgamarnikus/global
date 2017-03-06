@@ -1,0 +1,37 @@
+{% extends 'admin/master.html' %}
+{% import 'admin/lib.html' as lib with context %}
+
+{% block body %}
+                                <div class="panel panel-color panel-inverse">
+                                    <div class="panel-body p-0 code-edit-wrap">
+                                         <div class="panel-heading">
+  {% block header %}<h3 class="panel-title">{{ header_text }}</h3>{% endblock %}
+  										</div>
+  {% block fa_form %}
+    {{ lib.render_form(form, dir_url) }}
+  {% endblock %}
+  </div>
+  </div>
+
+
+    {% block tail_js %}
+    <script src="{{ url_for('static', filename='plugins/codemirror/js/codemirror.js') }}"></script>
+    <script src="{{ url_for('static', filename='plugins/codemirror/js/formatting.js') }}"></script>
+    <script src="{{ url_for('static', filename='plugins/codemirror/js/xml.js') }}"></script>
+
+	{% endblock %}
+
+{% block tail %}
+    <script src="{{ url_for('static', filename='pages/jquery.codemirror.init.js') }}"></script>
+
+{% endblock %}
+
+    {% block head_tails %}
+    <link href="{{ url_for('static', filename='plugins/codemirror/css/codemirror.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ url_for('static', filename='plugins/codemirror/css/ambiance.css') }}" rel="stylesheet" type="text/css" />
+    {% endblock %}
+
+
+
+
+{% endblock %}
