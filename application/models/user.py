@@ -33,8 +33,7 @@ class User(Base, UserMixin):
         backref=db.backref('users'))
     active = db.Column(db.Boolean())
     profile = relationship('Profile', 
-        backref='profile_user', 
-        uselist=False)
+        backref='profile_user')
     confirmed_at = db.Column(db.DateTime())
     last_login_at = db.Column(db.DateTime())
     current_login_at = db.Column(db.DateTime())
