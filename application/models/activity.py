@@ -14,7 +14,7 @@ class Activity(Base):
 	#contact_id = db.Column(db.Integer, db.ForeignKey('сontact.id'))
 	org_id = db.Column(db.Integer, db.ForeignKey('organisation.id'))
 	project_id = db.Column(db.Integer, db.ForeignKey('project.id'))
-	created_by = db.Column(db.Integer, db.ForeignKey('profile.id'), nullable=False) 
+	created_by = db.Column(db.Integer, db.ForeignKey('profile.id')) 
 
 	def __repr__(self):
 		return self.id
