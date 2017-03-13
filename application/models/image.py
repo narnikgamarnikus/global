@@ -10,7 +10,7 @@ class Image(Base):
     tags = db.relationship('Tag', backref='images_tags')
     product = db.Column(db.Integer, db.ForeignKey('product.id'))
     category = db.Column(db.Integer, db.ForeignKey('category.id'))
-    user = db.Column(db.Integer, db.ForeignKey('profile.id'))
+    user = db.Column(db.Integer, db.ForeignKey('user.id'))
 
 
     def __repr__(self):

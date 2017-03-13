@@ -78,6 +78,7 @@ def create_app():
     register_admin(app)
     register_security(app)
     register_babel(app)
+    register_api(app)
     register_jinja(app)
     register_error_handle(app)
     register_hooks(app)
@@ -85,8 +86,6 @@ def create_app():
     register_redis(app)
     register_context_processor(app)
     register_before_first_request(app)
-
-
 
 
     return app
@@ -157,13 +156,14 @@ def register_routes(app):
         if bp and isinstance(bp, Blueprint):
             app.register_blueprint(bp)
 
+
 def register_babel(app):
     """Register babel."""
     from .utils.babel import babel
 
     babel.init_app(app)
 
-def register_babel(app):
+def register_api(app):
     """Register api."""
     from .utils.api import api
 

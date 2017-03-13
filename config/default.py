@@ -26,7 +26,6 @@ class Config(object):
     # http://docs.sqlalchemy.org/en/rel_0_9/core/engines.html#database-urls
     SQLALCHEMY_DATABASE_URI = ""
     SQLALCHEMY_TRACK_MODIFICATIONS = False
-    SQLALCHEMY_BINDS = {'sessions_db': 'sqlite:///./sessions.db'}
 
     # Flask-DebugToolbar
     DEBUG_TB_INTERCEPT_REDIRECTS = False

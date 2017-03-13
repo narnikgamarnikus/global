@@ -2,7 +2,6 @@
 from datetime import datetime
 from ._base import *
 from .base import *
-from .profile import *
 
 
 class Handling(Base):
@@ -11,7 +10,7 @@ class Handling(Base):
 	message = db.Column(db.String(500))
 	end_data = db.Column(db.DateTime)
 	source = db.Column(db.Integer, db.ForeignKey('source.id'))
-	#accepted_by = db.Column(db.Integer, db.ForeignKey('profile.id'), unique=True)
+	accepted_by = db.Column(db.Integer, db.ForeignKey('user.id'), unique=True)
 	#delegated_by = db.Column(db.Integer, db.ForeignKey('profile.id'), unique=True)
 
 

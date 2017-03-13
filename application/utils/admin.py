@@ -2,7 +2,7 @@
 from flask_admin import Admin, AdminIndexView, form
 from flask import render_template, Blueprint, flash
 from flask_admin.contrib.sqla import ModelView
-from ..models import Page, Resource ,Source, Handling, Profile, Image, Address, Property, Country, City, Address, Organisation, Contact, Role, Domain, Page, User, db
+from ..models import Page, Resource ,Source, Handling, Image, Address, Property, Country, City, Address, Organisation, Contact, Role, Domain, Page, User, db
 from flask_security import current_user, login_required
 from flask import redirect, url_for, request
 from flask_admin import helpers as admin_helpers
@@ -29,11 +29,13 @@ from flask_wtf import Form
 from wtforms import validators
 from flask_admin.form import SecureForm
 
+
 static_path = op.join(op.dirname(__file__), '../static')
 page_path = op.join(op.dirname(__file__), '../pages')
 avatar_path = op.join(op.dirname(__file__), '../static/img/avatars/')
 
 
+'''
 
 
 
@@ -100,14 +102,14 @@ class MyLastAdmin(FileAdmin):
 	
     editable_extensions = ('md', 'html', 'txt', 'js', 'css')
 
-
+'''
 
 class MyHomeView(AdminIndexView):
     @expose('/')
     def index(self):
         if not current_user.is_authenticated:
             return redirect(url_for('security.login'))
-        
+
         if current_user.has_role('master'):
             print('i am a master')
             current_week = len(
@@ -175,13 +177,13 @@ class MyHomeView(AdminIndexView):
             #print(weekly_contacts)            
 
         
-
+        
         return self.render('admin/roles/superadmin.html',
-                current_week=current_week,
-                previous_week=previous_week,
-                delta=delta)
-
-
+                current_week='123',#current_week,
+                previous_week='123',#previous_week,
+                delta='123')#delta)
+        
+'''
 class MyModelAdmin(ModelView):
 
     def is_accessible(self):
@@ -206,7 +208,8 @@ class UserView(MyModelAdmin):
     #form_excluded_columns = ['password', 'роль', 'propertys', 'projects', 'organisations', 'contacts']
     #column_exclude_list = ('password')
     #searchable_columns = ('last_name','first_name', 'email')
-    '''
+    
+
     def _list_thumbnail(view, context, model, name):
         if not model.path:
             return ''
@@ -220,7 +223,7 @@ class UserView(MyModelAdmin):
     'path': _list_thumbnail
     }
     
-    '''
+    
 
 
     def scaffold_form(self):
@@ -236,7 +239,8 @@ class UserView(MyModelAdmin):
         form_class.problem = TextAreaField('Проблема')
         #form_class.c = QuerySelectMultipleField(label='Картинки', query_factory=lambda: Profile.query.filter(Profile.propertys.any(Property.name == 'Лид'), ~Profile.contacted.any()).all())
         return form_class
-        '''
+
+        
     def on_model_change(self, form, model):
         if not Profile.query.filter(Profile.user == model.id).first():
             #self.is_created=True
@@ -284,40 +288,43 @@ class UserView(MyModelAdmin):
 	#	})]
 	#
     '''
-#admin = Admin(name='CMS', 
-    #template_mode='bootstrap3')
 
+
+'''
 class HandlingView(HandlingView):
     column_display_all_relations = True
-
-
+'''
 
 admin = Admin(index_view=MyHomeView(menu_icon_type='ti', menu_icon_value='ti-home'),
 category_icon_classes={
-	'CRM': 'ti ti-money',
-	'CMS': 'ti ti-menu'
+	'CRM': 'ti ti-money'
 	}
 	)
-    
 
+'''
+admin = Admin(name='CMS', 
+    template_mode='bootstrap3')
+
+admin.add_view(ModelView(User, db.session))
+''' 
 #admin.add_view(MasterUserView(User, db.session, endpoint='userss', category='CRM', name='Лиды', menu_icon_type='ti', menu_icon_value='ti-link'))
 
 #admin.add_view(DomainView(Role, db.session, category='CRM', name='Роли', menu_icon_type='ti', menu_icon_value='ti-link'))
-admin.add_view(UserView(User, db.session, category='CRM', name='Юзеры', menu_icon_type='ti', menu_icon_value='ti-user'))
-admin.add_view(UserView(Profile, db.session, category='CRM', name='Профили', menu_icon_type='ti', menu_icon_value='ti-user'))
-admin.add_view(UserView(Source, db.session, category='CRM', name='Источники', menu_icon_type='ti', menu_icon_value='ti-user'))
-admin.add_view(HandlingView(Handling, db.session, category='CRM', name='Касания', menu_icon_type='ti', menu_icon_value='ti-user'))
-admin.add_view(UserView(Role, db.session, category='CRM', name='Роли', menu_icon_type='ti', menu_icon_value='ti-user'))
-admin.add_view(UserView(Resource, db.session, category='CMS', name='Ресурсы', menu_icon_type='ti', menu_icon_value='ti-user'))
-admin.add_view(UserView(Page, db.session, category='CMS', name='Страницы', menu_icon_type='ti', menu_icon_value='ti-user'))
+#admin.add_view(UserView(User, db.session, category='CRM', name='Юзеры', menu_icon_type='ti', menu_icon_value='ti-user'))
+#admin.add_view(UserView(Profile, db.session, category='CRM', name='Профили', menu_icon_type='ti', menu_icon_value='ti-user'))
+#admin.add_view(UserView(Source, db.session, category='CRM', name='Источники', menu_icon_type='ti', menu_icon_value='ti-user'))
+#admin.add_view(HandlingView(Handling, db.session, category='CRM', name='Касания', menu_icon_type='ti', menu_icon_value='ti-user'))
+#admin.add_view(UserView(Role, db.session, category='CRM', name='Роли', menu_icon_type='ti', menu_icon_value='ti-user'))
+#admin.add_view(UserView(Resource, db.session, category='CMS', name='Ресурсы', menu_icon_type='ti', menu_icon_value='ti-user'))
+#admin.add_view(UserView(Page, db.session, category='CMS', name='Страницы', menu_icon_type='ti', menu_icon_value='ti-user'))
 
 #admin.add_view(DomainView(Domain, db.session, category='CRM', name='Домены', menu_icon_type='ti', menu_icon_value='ti-server'))
 #admin.add_view(BaseView(Contact, db.session, category='CRM', name='Контакты', menu_icon_type='ti', menu_icon_value='ti-target'))
-admin.add_view(BaseView(Property, db.session, category='CRM', name='Свойства', menu_icon_type='ti', menu_icon_value='ti-property'))
+#admin.add_view(BaseView(Property, db.session, category='CRM', name='Свойства', menu_icon_type='ti', menu_icon_value='ti-property'))
 
 #admin.add_view(BaseView(Organisation, db.session, category='CRM', name='Организации', menu_icon_type='ti', menu_icon_value='ti-stamp'))
 #admin.add_view(Adresses(Address, db.session, category='CRM', name='Адреса', menu_icon_type='ti', menu_icon_value='ti-map-alt '))
-admin.add_view(Adresses(City, db.session, category='CRM', name='Города', menu_icon_type='ti', menu_icon_value='ti-map-alt '))
+#admin.add_view(Adresses(City, db.session, category='CRM', name='Города', menu_icon_type='ti', menu_icon_value='ti-map-alt '))
 #admin.add_view(Adresses(Country, db.session, category='CRM', name='Страны', menu_icon_type='ti', menu_icon_value='ti-map-alt '))
 
 #admin.add_view(BaseView(Page, db.session, category='CMS', name='Страницы', menu_icon_type='ti', menu_icon_value='ti-files'))

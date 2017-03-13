@@ -2,7 +2,7 @@
 from flask_admin import Admin, AdminIndexView, form
 from flask import render_template, Blueprint, flash
 from flask_admin.contrib.sqla import ModelView
-from ..models import Source, Profile, Image, Address, Property, Country, City, Address, Organisation, Contact, Role, Domain, Page, User, db
+from ..models import Source, Image, Address, Property, Country, City, Address, Organisation, Contact, Role, Domain, Page, User, db
 from flask_security import current_user, login_required
 from flask import redirect, url_for, request
 from flask_admin import helpers as admin_helpers
@@ -68,27 +68,26 @@ class ModelMaster(UserView):
         # redirect to login page if user doesn't have access
         return redirect(url_for('security.login', next=request.url))
 
-    '''
-    def get_query(self):
+        '''
+        def get_query(self):
         return super(ModelMaster, self).get_query().filter(
             User.city == current_user.city,
             User.propertys.any(Property.name.in_(['Лид', 'Контакт'])), 
             User.contacted.any(User.id == current_user.id),
             ~User.contacted.any())
-    '''
 
-    def get_query(self):
+
+
+        def get_query(self):
         return (
             self.session.query(
                 User,
-                Profile
-            ).filter(Profile.user == current_user.id
-            ).filter(Profile.city == Profile.city
-            ).filter(Profile.propertys.any(Property.name.in_(['Лид', 'Контакт']))
-            ).filter(or_(Profile.contacted.any(Profile.id == current_user.id), ~Profile.contacted.any()))
+            ).filter(User.id == current_user.id
+            ).filter(User.city == current_user.city
+            ).filter(User.propertys.any(User.name.in_(['Лид', 'Контакт']))
+            ).filter(or_(User.contacted.any(User.id == current_user.id), ~User.contacted.any()))
         )
-
-
+        '''
 
 
 class MasterUserView(ModelMaster):

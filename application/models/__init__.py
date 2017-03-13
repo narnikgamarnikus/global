@@ -28,7 +28,6 @@ from .page import *
 from .service import *
 from .domain import *
 from .property import *
-from .profile import *
 from .handling import *
 from .source import *
 from .resource import *

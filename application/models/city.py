@@ -9,7 +9,7 @@ class City(Base):
 	country = db.Column(db.ForeignKey('country.id'))
 	addresses = db.relationship('Address',
         backref=db.backref('Город в этой стране'))
-	users = db.relationship('Profile',
+	users = db.relationship('User',
         backref=db.backref('Город'))
 
 

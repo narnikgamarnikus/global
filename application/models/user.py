@@ -9,15 +9,44 @@ from flask import g, url_for
 from .notification import Notification
 import humanize
 from flask_security import UserMixin
-from .profile import Profile
 from .handling import Handling
 
 
 
+user_images = db.Table('user_images', 
+    db.Column('users_ids', db.Integer(), db.ForeignKey('user.id')),
+    db.Column('images_ids', db.Integer(), db.ForeignKey('image.id'))
+)
+
+user_contacts = db.Table('user_contacts',
+    db.Column('users_ids', db.Integer, db.ForeignKey('user.id')),
+    db.Column('contacts_ids', db.Integer, db.ForeignKey('user.id'))
+)
+
+user_addresses = db.Table('user_addresses', 
+    db.Column('users_ids', db.Integer(), db.ForeignKey('user.id')),
+    db.Column('addresses_ids', db.Integer(), db.ForeignKey('address.id'))
+)
+
+user_domains = db.Table('user_domains', 
+    db.Column('users_ids', db.Integer(), db.ForeignKey('user.id')),
+    db.Column('domains_ids', db.Integer(), db.ForeignKey('domain.id'))
+)
+
+user_propertys = db.Table('user_propertys', 
+    db.Column('users_ids', db.Integer(), db.ForeignKey('user.id')),
+    db.Column('propertys_ids', db.Integer(), db.ForeignKey('property.id'))
+)
+
+user_handlings = db.Table('user_handlings', 
+    db.Column('users_ids', db.Integer(), db.ForeignKey('user.id')),
+    db.Column('handlings_ids', db.Integer(), db.ForeignKey('handling.id'))
+)
+
 roles_users = db.Table('roles_users',
     db.Column('user_id', db.Integer(), db.ForeignKey('user.id')),
     db.Column('role_id', db.Integer(), db.ForeignKey('role.id'))
-    )
+)
 
 
 class User(Base, UserMixin):
@@ -32,8 +61,6 @@ class User(Base, UserMixin):
         secondary=roles_users,
         backref=db.backref('users'))
     active = db.Column(db.Boolean())
-    profile = relationship('Profile', 
-        backref='profile_user')
     confirmed_at = db.Column(db.DateTime())
     last_login_at = db.Column(db.DateTime())
     current_login_at = db.Column(db.DateTime())
@@ -41,14 +68,29 @@ class User(Base, UserMixin):
     current_login_ip = db.Column(db.String(55))
     login_count = db.Column(db.Integer())
     created_by = db.Column(db.Integer, db.ForeignKey('user.id'))
-
-
-    @staticmethod
-    def create_profile(self):
-        '''Create profile by current user'''
-        if not Profile.query.filter(Profile.user == self.id).first():
-            Profile.create(user = self.id)
-        return self.profile
+    avatar = db.Column(db.Integer, db.ForeignKey('image.id'))
+    city = db.Column(db.Integer, db.ForeignKey('city.id'))
+    image = db.relationship('Image', 
+        secondary=user_images,
+        backref=db.backref('zusers'))
+    #images = db.relationship('Image', secondary=user_images,
+    #    backref=db.backref('zuser'))
+    handlings = db.relationship('Handling', 
+        secondary=user_handlings,
+         backref=db.backref('users'))
+    contacts = db.relationship(
+        'User', lambda: user_contacts,
+        primaryjoin=lambda: User.id == user_contacts.c.users_ids,
+        secondaryjoin=lambda: User.id == user_contacts.c.contacts_ids,
+        backref='contacted')
+    adresses = db.relationship('Address', secondary=user_addresses,
+        backref=db.backref('usersz'))
+    propertys = db.relationship('Property', secondary=user_propertys,
+        backref=db.backref('propertys_users'))
+    domains = db.relationship('Domain', secondary=user_domains,
+        backref=db.backref('users_users'))
+    organisations = db.relationship('Organisation', backref='users_organisations')
+    activities = db.relationship('Activity', backref='users_activities')
 
 
     @staticmethod
@@ -69,6 +111,7 @@ class User(Base, UserMixin):
             return list(reversed(notifs))
         else:
             return notifs
+
 
     @staticmethod
     def create_notification(self, action, title, message):

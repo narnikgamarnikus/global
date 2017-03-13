@@ -63,6 +63,15 @@ def create_db():
     '''
     print('All is created!!')
 
+
+@manager.command
+def create_all():
+    with app.app_context():
+        print('Creating all ...')
+        db.create_all()
+    print('All is created!!')
+
+
 @manager.command
 def upgrade_db():
     os.system('python manage.py db upgrade')
@@ -93,17 +102,26 @@ def list_routes():
 
         methods = ','.join(rule.methods)
         url = url_for(rule.endpoint, **options)
-        line = urllib.request.unquote("{:50s} {:20s} {}".format(rule.endpoint, methods, url))
+        line = urllib.request.unquote("{:50s} {:20s} ".format(rule.endpoint, methods, url))
 
-        if url.split('/')[1] == '':
-            output.append(line)
+        #if url.split('/')[1] == '':
+        output.append(line)
 
     for line in sorted(output):
         print (line)
 
+@manager.command
+def url_map():
+    import urllib.request
 
+    output = []
+    for rule in app.url_map.iter_rules():
+        methods = ','.join(rule.methods)
+        line = urllib.request.unquote("{:50s} {:20s} {}".format(rule.endpoint, methods, rule))
+        output.append(line)
 
-
+    for line in sorted(output):
+        print(line)
 
 @manager.command
 def run():

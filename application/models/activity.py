@@ -2,9 +2,9 @@
 from datetime import datetime
 from ._base import db
 from .base import Base
-from sqlalchemy import ForeignKey
-from sqlalchemy.exc import IntegrityError
-from sqlalchemy_utils import EmailType, ChoiceType
+#from sqlalchemy import ForeignKey
+#from sqlalchemy.exc import IntegrityError
+#from sqlalchemy_utils import EmailType, ChoiceType
 
 class Activity(Base):
 	
@@ -14,7 +14,7 @@ class Activity(Base):
 	#contact_id = db.Column(db.Integer, db.ForeignKey('сontact.id'))
 	org_id = db.Column(db.Integer, db.ForeignKey('organisation.id'))
 	project_id = db.Column(db.Integer, db.ForeignKey('project.id'))
-	created_by = db.Column(db.Integer, db.ForeignKey('profile.id')) 
+	created_by = db.Column(db.Integer, db.ForeignKey('user.id')) 
 
 	def __repr__(self):
 		return self.id
