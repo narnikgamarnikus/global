@@ -124,6 +124,17 @@ def url_map():
         print(line)
 
 @manager.command
+def rules():
+    from six import iteritems
+    rules = {}
+    for endpoint, _rules in iteritems(app.url_map._rules_by_endpoint):
+        if any(item in endpoint for item in ['_debug_toolbar', 'debugtoolbar', 'static']):
+            continue
+        rules[endpoint] = [{'rule': rule.rule} for rule in _rules]
+    print(rules)
+
+
+@manager.command
 def run():
     """Run app."""
     socketio.run(app, port=PORT)
